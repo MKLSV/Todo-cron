@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     const MTtasks = [...DataForAll, ...DataForMT]
     const DEAtasks = [...DataForAll, ...DataForDea]
-    
+
     if (MTtasks.length) sendMsg(MTtasks, "MT")
     if (DEAtasks.length) sendMsg(DEAtasks, "DEA")
 
@@ -26,8 +26,7 @@ export default async function handler(req, res) {
 
 async function sendMsg(tasks, user) {
   const sortedTasks = sortTasks(tasks)
-  await sendToTelegram('Привет, вот задачи которые нужно выполнить в ближайшие дни:', user)
-  await delay(500)
+  sendToTelegram('Привет, вот задачи которые нужно выполнить в ближайшие дни:', user)
   if (sortedTasks.overdue.length) {
     const msg = '🕒Просрочено:\n' + sortedTasks.overdue.map(task => {
       return '📌' + task.text + '\n'
