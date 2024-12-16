@@ -43,6 +43,6 @@ export async function sendToTelegram(message, user) {
   });
 
   if (!response.ok) {
-    console.error('Ошибка отправки сообщения в Telegram:', await response.text());
+    console.error('Ошибка отправки сообщения в Telegram: ', await response.text());
   }
 }
