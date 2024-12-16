@@ -4,17 +4,18 @@ import { getDataFromMongoDB, sendToTelegram } from '../service.js';
 export default async function handler(req, res) {
   try {
     const response = await getDataFromMongoDB()
-
+    console.log('1',response)
     const time = Date.now()
     const filteredData = response.filter(val => !val.isCompleted && val.dueDate && val.dueDate - time < (3 * 24 * 60 * 60 * 1000))
     const DataForAll = filteredData.filter(val => val.owner === 'Для всех')
     const DataForMT = filteredData.filter(val => val.owner === 'Матвей')
     const DataForDea = filteredData.filter(val => val.owner === 'Делайла')
-
+    
     const MTtasks = [...DataForAll, ...DataForMT]
     const DEAtasks = [...DataForAll, ...DataForDea]
     sendMsg(MTtasks, "MT")
     sendMsg(DEAtasks, "DEA")
+    console.log('2')
 
     res.status(200).json({ message: 'Сообщение отправлено' });
   } catch (error) {
