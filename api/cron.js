@@ -23,7 +23,6 @@ export default async function handler(req, res) {
   }
 }
 
-
 async function sendMsg(tasks, user) {
   const sortedTasks = sortTasks(tasks)
   sendToTelegram('Привет, вот задачи которые нужно выполнить в ближайшие дни:', user)
