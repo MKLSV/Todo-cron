@@ -1,14 +1,18 @@
 {
-  "repository": "https://github.com/vercel/examples.git",
-  "license": "MIT",
-  "private": true,
-  "devDependencies": {
-    "@types/node": "^17.0.42",
-    "@vercel/node": "^2.9.6",
-    "ts-node": "^10.9.2",
-    "typescript": "^4.7.3"
+  "name": "my-cron-service",
+  "version": "1.0.0",
+  "description": "Cron сервис для выполнения задач каждые 12 часов.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "vercel dev"
   },
   "dependencies": {
-    "mongodb": "^6.4.0"
-  }
+    "mongodb": "^6.4.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@vercel/node": "^2.9.6"
+  },
+  "license": "MIT"
 }
