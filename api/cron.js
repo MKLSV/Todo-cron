@@ -32,6 +32,7 @@ export default async function handler(req, res) {
 async function sendMsg(tasks, user) {
   const sortedTasks = sortTasks(tasks)
   await sendToTelegram('Привет, вот задачи которые нужно выполнить в ближайшие дни:', user)
+  await delay(500)
   if (sortedTasks.overdue.length) {
     const msg = '🕒Просрочено:\n' + sortedTasks.overdue.map(task => {
       return '📌' + task.text + '\n'
