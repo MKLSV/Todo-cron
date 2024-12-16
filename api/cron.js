@@ -25,18 +25,21 @@ export default async function handler(req, res) {
 
 async function sendMsg(tasks, user) {
   const sortedTasks = sortTasks(tasks)
-  sendToTelegram('Привет, вот задачи которые нужно выполнить в ближайшие дни:', user)
+  const taskMessage ='Привет, вот задачи которые нужно выполнить в ближайшие дни:\n\n'
+  // sendToTelegram('Привет, вот задачи которые нужно выполнить в ближайшие дни:', user)
   if (sortedTasks.overdue.length) {
     const msg = '🕒Просрочено:\n' + sortedTasks.overdue.map(task => {
       return '📌' + task.text + '\n'
     }).join('')
-    await sendToTelegram(msg, user)
+    // await sendToTelegram(msg, user)
+    taskMessage += msg
   }
   if (sortedTasks.today.length) {
     const msg = '🕒Сегодня:\n' + sortedTasks.today.map(task => {
       return '📌' + task.text + '\n'
     }).join('')
-    await sendToTelegram(msg, user)
+    // await sendToTelegram(msg, user)
+    taskMessage += msg
   }
   if (sortedTasks.tommorow.length) {
     const msg = '🕒До Завтра:\n' + sortedTasks.tommorow.map(task => {
@@ -48,9 +51,11 @@ async function sendMsg(tasks, user) {
     const msg = '🕒До Послезавтра:\n' + sortedTasks.afterTomorrow.map(task => {
       return '📌' + task.text + '\n'
     }).join('')
-    await sendToTelegram(msg, user)
+    // await sendToTelegram(msg, user)
+    taskMessage += msg
   }
-
+  
+  sendToTelegram(taskMessage, user)
 }
 
 
