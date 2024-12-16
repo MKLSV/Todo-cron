@@ -13,8 +13,8 @@ export default async function handler(req, res) {
     const MTtasks = [...DataForAll, ...DataForMT]
     const DEAtasks = [...DataForAll, ...DataForDea]
 
-    if (MTtasks.length) sendMsg(MTtasks, "MT")
-    if (DEAtasks.length) sendMsg(DEAtasks, "DEA")
+    if (MTtasks.length) await sendMsg(MTtasks, "MT")
+    if (DEAtasks.length) await sendMsg(DEAtasks, "DEA")
 
     res.status(200).json({ message: 'Сообщение отправлено' });
   } catch (error) {
@@ -22,22 +22,7 @@ export default async function handler(req, res) {
     res.status(500).json({ error: 'Ошибка сервера' });
   }
 }
-async function get() {
-  const response = await getDataFromMongoDB()
-  const time = Date.now()
-  const filteredData = response.filter(val => !val.isCompleted && val.dueDate && val.dueDate - time < (3 * 24 * 60 * 60 * 1000))
-  const DataForAll = filteredData.filter(val => val.owner === 'Для всех')
-  const DataForMT = filteredData.filter(val => val.owner === 'Матвей')
-  const DataForDea = filteredData.filter(val => val.owner === 'Делайла')
 
-  const MTtasks = [...DataForAll, ...DataForMT]
-  const DEAtasks = [...DataForAll, ...DataForDea]
-
-  if (MTtasks.length) sendMsg(MTtasks, "MT")
-  if (DEAtasks.length) sendMsg(DEAtasks, "DEA")
-
-}
-get()
 async function sendMsg(tasks, user) {
   const sortedTasks = sortTasks(tasks);
   let taskMessage = 'Привет, вот задачи которые нужно выполнить в ближайшие дни:\n\n';
