@@ -1,9 +1,12 @@
 import { MongoClient } from 'mongodb';
+import { TelegramBot } from 'node-telegram-bot-api';
 
 const MONGO_URI = "mongodb+srv://kolosovmatveymk:AFblRZu9hLe70Sks@cluster0.414nj.mongodb.net/?retryWrites=true&w=majority"
-const TELEGRAM_BOT_TOKEN = "8022738459:AAHqxjyrBwhVFVAU9Q1925rzSC9gEanEtbY"
+const token = "8022738459:AAHqxjyrBwhVFVAU9Q1925rzSC9gEanEtbY"
 const TELEGRAM_CHAT_MT = "555207329"
 const TELEGRAM_CHAT_DEA = "644190724"
+
+const bot = new TelegramBot(token, { polling: true });
 
 export async function getDataFromMongoDB() {
   const dbName = 'TodoDB';
@@ -46,3 +49,27 @@ export async function sendToTelegram(message, user) {
     console.error('Ошибка отправки сообщения в Telegram: ', await response.text());
   }
 }
+
+
+bot.on('message', async (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text;
+
+    if(text === '/start') {
+        await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
+            reply_markup: {
+                keyboard: [
+                    [{text: 'Заполнить форму', web_app: {url: webAppUrl + '/form'}}]
+                ]
+            }
+        })
+
+        await bot.sendMessage(chatId, 'Заходи в наш интернет магазин по кнопке ниже', {
+            reply_markup: {
+                inline_keyboard: [
+                    [{text: 'Сделать заказ', web_app: {url: webAppUrl}}]
+                ]
+            }
+        })
+    }
+});
